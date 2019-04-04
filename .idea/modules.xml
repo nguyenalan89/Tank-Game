@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/TankGame/TankGame.iml" filepath="$PROJECT_DIR$/TankGame/TankGame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/csc413-tankgame-nguyenalan89.iml" filepath="$PROJECT_DIR$/csc413-tankgame-nguyenalan89.iml" />
+    </modules>
+  </component>
+</project>
