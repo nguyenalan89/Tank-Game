@@ -22,16 +22,18 @@ public class TRE extends JPanel  {
     public static final int WORLDSIZE_Y = 1480;
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 960;
-    private BufferedImage world,bulletImg,LEFT_SIDE, RIGHT_SIDE,backgroundMap;
+    private BufferedImage world,bulletImg,LEFT_SIDE, RIGHT_SIDE,backgroundMap,life;
     private Image miniMap;
     private Graphics2D buffer;
     private JFrame jf;
     private Tank t1, t2;
     private Bullet b;
+    private int tankLives = 3;
+    private int health = 20;
 
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
-    private int p1WindowBoundX, p1WindowBoundY, p2WindowBoundX, p2WindowBoundY;
+    private int p1WindowBoundX, p1WindowBoundY, p2WindowBoundX, p2WindowBoundY,p1HealthBar,p2HealthBar;
 
 
     public static void main(String[] args) {
@@ -78,12 +80,14 @@ public class TRE extends JPanel  {
           backgroundMap = ImageIO.read(this.getClass().getClassLoader().getResource("Background.bmp"));
           bulletImg = ImageIO.read(this.getClass().getClassLoader().getResource("Shell.gif"));
 
+          life = ImageIO.read(this.getClass().getClassLoader().getResource("Heart.png"));
+
 
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        t1 = new Tank(200, 200, 0, 0, 0, t1img,100);
-        t2 = new Tank(700,700,0,0,0,t2img,100);
+        t1 = new Tank(200, 200, 0, 0, 0, t1img,health,tankLives);
+        t2 = new Tank(700,700,0,0,0,t2img,health,tankLives);
 
 
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
@@ -138,6 +142,11 @@ public class TRE extends JPanel  {
 
 
 
+        drawHealthBar(g2);
+
+
+
+
     }
 
 
@@ -178,6 +187,75 @@ public class TRE extends JPanel  {
         RIGHT_SIDE = world.getSubimage(this.p2WindowBoundX, this.p2WindowBoundY, TRE.SCREEN_WIDTH/2, TRE.SCREEN_HEIGHT);
 
         miniMap =  world.getScaledInstance(200,200,Image.SCALE_FAST); //FIXME change the specific size of minimap
+
+
+
+
+
+
+    }
+
+
+    private void drawHealthBar(Graphics g){
+
+
+        p1HealthBar = this.t1.getHealth();
+        p2HealthBar = this.t2.getHealth();
+
+        int t2Position = t1.getHeight();
+
+        int p1Offset = 25;
+        int p2Offset = 25;
+
+
+
+
+
+        g.setColor(white);
+        g.draw3DRect(t1.getWidth(),t1.getHeight(),200,20,true); //t1 health bar
+        g.draw3DRect(1020,t2Position,200,20,true); //t2 health bar
+
+
+        g.setColor(green);
+        g.fill3DRect(t1.getWidth(),t1.getHeight(),200,20,true);
+        g.fill3DRect(1020,t2Position,200,20,true);
+
+        //fills in the color for lives for both t1 and t2
+//        for(int i = 0; i < tankLives; i++){
+//
+//            g.setColor(white);
+//            g.drawOval(t1.getWidth() + p1Offset * i ,t1.getHeight() + 20,15,15);
+//            g.drawOval(1205 - (p2Offset * i),t2Position+ 20,15,15);
+//
+//            g.setColor(red);
+//            g.fillOval(t1.getWidth() + p1Offset * i, t1.getHeight() + 20, 15, 15);
+//            g.fillOval(1205-(p2Offset * i),t2Position + 20,15,15);
+//
+//        }
+
+
+        //draws the tank lives for each player
+
+        for(int i = 0; i < tankLives; i++) {
+
+            g.drawImage(life, t1.getWidth() + (i * p1Offset), t1.getHeight() + 20, this);//t1's live count
+
+            g.drawImage(life,1020 + (i * p2Offset),t2Position + 20,this); //t2's live count
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

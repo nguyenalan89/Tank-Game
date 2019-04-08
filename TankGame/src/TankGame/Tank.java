@@ -16,7 +16,8 @@ public class Tank{
     private int vx;
     private int vy;
     private int angle;
-    private int width,height,health = 4;
+    private int width,height,health;
+    private int tankLives;
 
     private final int R = 2;
     private final int ROTATIONSPEED = 4;
@@ -34,7 +35,7 @@ public class Tank{
     private Tank tank;
 
 
-    Tank(int x, int y, int vx, int vy, int angle, BufferedImage img, int health) {
+    Tank(int x, int y, int vx, int vy, int angle, BufferedImage img, int health, int tankLives) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -44,6 +45,7 @@ public class Tank{
         this.width = img.getWidth();
         this.height = img.getHeight();
         this.health = health;
+        this.tankLives = tankLives;
 
     }
 
@@ -200,5 +202,13 @@ public class Tank{
 
     public int getHeight() {
         return height;
+    }
+
+    public int getTankLives() {
+        return tankLives;
+    }
+
+    public void setTankLives(int tankLives) {
+        this.tankLives = tankLives;
     }
 }
