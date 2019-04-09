@@ -3,6 +3,7 @@ package TankGame;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  *
@@ -10,6 +11,8 @@ import java.awt.image.BufferedImage;
  */
 public class Tank{
 
+    private TRE tankGame;
+    private Tank tank;
 
     private int x;
     private int y;
@@ -31,8 +34,12 @@ public class Tank{
     private boolean LeftPressed;
     private boolean ShootPressed;
 
-    private TRE tankGame;
-    private Tank tank;
+
+
+
+
+
+
 
 
     Tank(int x, int y, int vx, int vy, int angle, BufferedImage img, int health, int tankLives) {
@@ -105,9 +112,9 @@ public class Tank{
             this.rotateRight();
         }
         if (this.ShootPressed){
-           //FIXME add shoot method
 
-
+            this.shootBullet();
+            //FIXME
 
         }
 
@@ -140,10 +147,9 @@ public class Tank{
         checkBorder();
     }
 
-    private void shootBullet(Tank tank){
+    private void shootBullet(){
 
-
-
+        //FIXME
 
 
     }
@@ -155,9 +161,6 @@ public class Tank{
     public int getTankCenterY() {
         return y + img.getHeight(null) / 2;
     }
-
-
-
 
 
 
@@ -211,4 +214,7 @@ public class Tank{
     public void setTankLives(int tankLives) {
         this.tankLives = tankLives;
     }
+
+
+
 }

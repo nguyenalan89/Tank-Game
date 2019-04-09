@@ -10,8 +10,8 @@ public class Bullet {
 
 
 
-
     private Tank tank;
+    private TRE tankGame;
 
 
 
@@ -25,21 +25,22 @@ public class Bullet {
     private int damage;
     private boolean visible;
     private final int R = 2;
+    private int speed;
 
     private BufferedImage img;
 
 
 
-    Bullet(Tank tank, int x, int y, BufferedImage img) {
+    Bullet(TRE tankGame,Tank tank,int speed, BufferedImage img,int damage) {
 
-        this.x = x;
-        this.y = y;
+        this.tankGame = tankGame;
+        this.speed = speed;
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
         this.img = img;
         this.visible = true;
         this.tank = tank;
-
+        this.damage = damage;
 
 
     }
@@ -55,6 +56,7 @@ public class Bullet {
 
 
     private void moveForwards() {
+
         vx = (int) Math.round(R * Math.cos(Math.toRadians(angle)));
         vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
         x += vx;
@@ -71,49 +73,14 @@ public class Bullet {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
 
+
+
     }
+
 
     public boolean isVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public void setAngle(int angle) {
-        this.angle = angle;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public Tank getTank() {
-        return tank;
-    }
-
-    public void setTank(Tank tank) {
-        this.tank = tank;
-    }
 }
