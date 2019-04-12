@@ -1,8 +1,14 @@
-package TankGame;
+package TankControl;
 
+
+import Bullet.Bullet;
+import Tank.Tank;
+import TankGame.TRE;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 /**
@@ -11,12 +17,14 @@ import java.awt.event.KeyListener;
  */
 public class TankControl implements KeyListener {
 
+
     private Tank t1;
     private final int up;
     private final int down;
     private final int right;
     private final int left;
     private final int shoot;
+
 
     public TankControl(Tank t1, int up, int down, int left, int right, int shoot) {
         this.t1 = t1;
@@ -25,6 +33,7 @@ public class TankControl implements KeyListener {
         this.right = right;
         this.left = left;
         this.shoot = shoot;
+
     }
 
     @Override

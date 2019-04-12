@@ -1,9 +1,17 @@
-package TankGame;
+package Tank;
 
+
+
+
+import Bullet.Bullet;
+import TankGame.TRE;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
+import java.io.IOException;
+
 
 /**
  *
@@ -11,8 +19,6 @@ import java.util.ArrayList;
  */
 public class Tank{
 
-    private TRE tankGame;
-    private Tank tank;
 
     private int x;
     private int y;
@@ -27,22 +33,19 @@ public class Tank{
 
 
 
-    private BufferedImage img;
+    private BufferedImage img,bulletImg;
     private boolean UpPressed;
     private boolean DownPressed;
     private boolean RightPressed;
     private boolean LeftPressed;
     private boolean ShootPressed;
 
+    private TRE tankgame = new TRE();
 
 
 
+    public Tank(int x, int y, int vx, int vy, int angle, BufferedImage img, int health, int tankLives) {
 
-
-
-
-
-    Tank(int x, int y, int vx, int vy, int angle, BufferedImage img, int health, int tankLives) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -54,50 +57,58 @@ public class Tank{
         this.health = health;
         this.tankLives = tankLives;
 
+
+        try {
+            bulletImg = ImageIO.read(this.getClass().getClassLoader().getResource("bullet.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
-    void toggleUpPressed() {
+    public void toggleUpPressed() {
         this.UpPressed = true;
     }
 
-    void toggleDownPressed() {
+    public void toggleDownPressed() {
         this.DownPressed = true;
     }
 
-    void toggleRightPressed() {
+    public void toggleRightPressed() {
         this.RightPressed = true;
     }
 
-    void toggleLeftPressed() {
+    public void toggleLeftPressed() {
         this.LeftPressed = true;
     }
 
-    void toggleShootPressed(){this.ShootPressed = true;}
+    public void toggleShootPressed(){this.ShootPressed = true;}
 
-    void unToggleUpPressed() {
+    public void unToggleUpPressed() {
         this.UpPressed = false;
     }
 
-    void unToggleDownPressed() {
+    public void unToggleDownPressed() {
         this.DownPressed = false;
     }
 
-    void unToggleRightPressed() {
+    public void unToggleRightPressed() {
         this.RightPressed = false;
     }
 
-    void unToggleLeftPressed() {
+    public void unToggleLeftPressed() {
         this.LeftPressed = false;
     }
 
-    void unToggleShootPressed(){
+    public void unToggleShootPressed(){
         this.ShootPressed = false;
     }
 
 
 
     public void update() {
+
         if (this.UpPressed) {
             this.moveForwards();
         }
@@ -113,8 +124,8 @@ public class Tank{
         }
         if (this.ShootPressed){
 
-            this.shootBullet();
-            //FIXME
+            this.shootBullet(this);
+
 
         }
 
@@ -140,6 +151,7 @@ public class Tank{
     }
 
     private void moveForwards() {
+
         vx = (int) Math.round(R * Math.cos(Math.toRadians(angle)));
         vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
         x += vx;
@@ -147,12 +159,13 @@ public class Tank{
         checkBorder();
     }
 
-    private void shootBullet(){
+    private void shootBullet(Tank tank){
 
-        //FIXME
-
+        this.tankgame.addBullets(new Bullet(this.tankgame.getTankgame(),tank,bulletImg,x,y,this.getWidth(),this.getHeight()));
+        checkBorder();
 
     }
+
 
     public int getTankCenterX() {
         return x + img.getWidth(null) / 2;
@@ -186,12 +199,14 @@ public class Tank{
     }
 
 
-    void drawImage(Graphics g) {
+    public void drawImage(Graphics g) {
 
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(this.img, rotation, null);
+
+
     }
 
 
@@ -215,6 +230,13 @@ public class Tank{
         this.tankLives = tankLives;
     }
 
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
+    }
 
 
 }

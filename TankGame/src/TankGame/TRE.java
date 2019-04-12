@@ -1,6 +1,13 @@
 package TankGame;
 
 
+
+import Bullet.Bullet;
+import Tank.Tank;
+import TankControl.TankControl;
+import Wall.Wall;
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -23,23 +30,25 @@ public class TRE extends JPanel  {
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 960;
 
-    private BufferedImage world,bulletImg,LEFT_SIDE, RIGHT_SIDE,backgroundMap,life,breakableWall, unbreakableWall;
+    private TRE tankgame;
+
+    private BufferedImage world,LEFT_SIDE, RIGHT_SIDE,backgroundMap,life,breakableWall, unbreakableWall,bulletImg;
     private Image miniMap;
     private Graphics2D buffer;
     private JFrame jf;
-    private Tank t1, t2;
-    private Bullet b;
+    private Tank t1, t2,t;
     private int tankLives = 3;
     private int health = 20;
-    private String line;
-    private int position = 0;
+    private Bullet b;
 
 
+     private static ArrayList<Bullet> bullets = new ArrayList<>();
 
-    private ArrayList<Bullet> bullets = new ArrayList<>();
-    private ArrayList<Wall> wall = new ArrayList<>();
+     private ArrayList<Wall> wall = new ArrayList<>();
 
-    private int p1WindowBoundX, p1WindowBoundY, p2WindowBoundX, p2WindowBoundY,p1HealthBar,p2HealthBar;
+     private ArrayList<Wall> indestructibleWall = new ArrayList<>();
+
+     private int p1WindowBoundX, p1WindowBoundY, p2WindowBoundX, p2WindowBoundY,p1HealthBar,p2HealthBar;
 
 
     public static void main(String[] args) {
@@ -52,6 +61,8 @@ public class TRE extends JPanel  {
 
                 trex.t1.update();
                 trex.t2.update();
+                trex.b.update();
+
                 trex.repaint();
                 System.out.println(trex.t1);
                 System.out.println(trex.t2);
@@ -61,11 +72,14 @@ public class TRE extends JPanel  {
 
         }
 
+
+
     }
 
 
     private void init() {
         this.jf = new JFrame("Tank Rotation");
+
 
 
         BufferedImage t1img = null, t2img = null;
@@ -84,32 +98,13 @@ public class TRE extends JPanel  {
 
 
           backgroundMap = ImageIO.read(this.getClass().getClassLoader().getResource("Background.bmp"));
+
           bulletImg = ImageIO.read(this.getClass().getClassLoader().getResource("bullet.png"));
 
           life = ImageIO.read(this.getClass().getClassLoader().getResource("Heart.png"));
+
           breakableWall = ImageIO.read(this.getClass().getClassLoader().getResource("WoodBox.gif"));
           unbreakableWall = ImageIO.read(this.getClass().getClassLoader().getResource("Wall.gif"));
-
-
-
-
-
-//
-//          BufferedReader layout = new BufferedReader(new FileReader("MapLayout.txt"));
-//
-//          while((line = layout.readLine()) != null){
-//
-//              for(int i = 0; i < line.length(); i++){
-//                  if(line.charAt(i) == '1'){
-//                      wall.add(new Wall(this, unbreakableWall,(position % 48) * 32, position/ 48 * 32, false));
-//                  }
-//
-//              }
-//
-//
-//
-//          }
-
 
 
 
@@ -119,8 +114,9 @@ public class TRE extends JPanel  {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        t1 = new Tank(200, 200, 0, 0, 0, t1img,health,tankLives);
+        t1 = new Tank(100, 100, 0, 0, 0, t1img,health,tankLives);
         t2 = new Tank(700,700,0,0,0,t2img,health,tankLives);
+        b = new Bullet(this,t1,bulletImg,0,0,t1.getWidth(),t1.getHeight());
 
 
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
@@ -142,7 +138,6 @@ public class TRE extends JPanel  {
         this.jf.setVisible(true);
 
 
-
     }
 
 
@@ -155,6 +150,7 @@ public class TRE extends JPanel  {
 
 
         drawWorld();
+
 
         g2.drawImage(LEFT_SIDE, 0, 0, this); //draws the left side of the screen
         g2.drawImage(RIGHT_SIDE, TRE.SCREEN_WIDTH / 2, 0, this); //draws the right side of the screen
@@ -172,7 +168,11 @@ public class TRE extends JPanel  {
 
 
 
+
     }
+
+
+
 
 
 
@@ -197,15 +197,32 @@ public class TRE extends JPanel  {
             }
         }
 
+
+
+
     }
+
+
+
+
 
     public void drawWorld(){
 
         drawBackgroundTile(buffer);
 
-        this.t1.drawImage(buffer);
 
+        for(int i = 0; i < bullets.size(); i++){
+            b = bullets.get(i);
+            if(b.getX() < 0){
+                bullets.remove(i);
+            }
+
+            b.drawImage(buffer);
+        }
+
+        this.t1.drawImage(buffer);
         this.t2.drawImage(buffer);
+
 
 
         playerViewBoundChecker();
@@ -217,7 +234,18 @@ public class TRE extends JPanel  {
         miniMap =  world.getScaledInstance(200,200,Image.SCALE_FAST); //FIXME change the specific size of minimap
 
 
+
+
+
+
+
     }
+
+
+
+
+
+
 
 
 
@@ -324,7 +352,10 @@ public class TRE extends JPanel  {
 
 
 
+    public BufferedImage getBulletImg(){
 
+        return bulletImg;
+    }
 
 
 
@@ -336,4 +367,28 @@ public class TRE extends JPanel  {
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
+
+    public void addBullets(Bullet projectile){
+        bullets.add(projectile);
+
+    }
+    public void removeBullets(Bullet projectile){
+        bullets.remove(projectile);
+    }
+
+    public ArrayList<Wall> getIndestructibleWall() {
+        return indestructibleWall;
+    }
+
+
+    public TRE getTankgame() {
+
+        return tankgame;
+    }
+
+    public void setTankgame(TRE tankgame) {
+        this.tankgame = tankgame;
+    }
+
+
 }
