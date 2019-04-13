@@ -28,7 +28,7 @@ public class TRE extends JPanel  {
     public static final int WORLDSIZE_X = 1920;
     public static final int WORLDSIZE_Y = 1480;
     public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 960;
+    public static final int SCREEN_HEIGHT = 1080;
 
     private TRE tankgame;
 
@@ -40,11 +40,14 @@ public class TRE extends JPanel  {
     private int tankLives = 3;
     private int health = 20;
     private Bullet b;
+    private Wall w;
+    private String line;
+    private int position;
 
 
      private static ArrayList<Bullet> bullets = new ArrayList<>();
 
-     private ArrayList<Wall> wall = new ArrayList<>();
+     private static ArrayList<Wall> wall = new ArrayList<>();
 
      private ArrayList<Wall> indestructibleWall = new ArrayList<>();
 
@@ -62,7 +65,6 @@ public class TRE extends JPanel  {
                 trex.t1.update();
                 trex.t2.update();
                 trex.b.update();
-
                 trex.repaint();
                 System.out.println(trex.t1);
                 System.out.println(trex.t2);
@@ -107,6 +109,29 @@ public class TRE extends JPanel  {
           unbreakableWall = ImageIO.read(this.getClass().getClassLoader().getResource("Wall.gif"));
 
 
+          BufferedReader in = new BufferedReader(new FileReader("MapLayout.txt"));
+
+          position = 0;
+
+          while((line = in.readLine()) != null){
+             for(int i = 0; i < line.length(); i++){
+
+                if(line.charAt(i) == '1'){
+                     this.addWall(new Wall(this,unbreakableWall,(position % 48) * 32, position/ 48 * 32,false));
+                }else
+                if(line.charAt(i) == '2'){
+                     this.addWall(new Wall(this,breakableWall,(position % 48) * 32, position/ 48 * 32,true));
+
+                 }
+
+                 position++;
+             }
+
+
+          }
+
+
+
 
 
 
@@ -116,7 +141,7 @@ public class TRE extends JPanel  {
         }
         t1 = new Tank(100, 100, 0, 0, 0, t1img,health,tankLives);
         t2 = new Tank(700,700,0,0,0,t2img,health,tankLives);
-        b = new Bullet(this,t1,bulletImg,0,0,t1.getWidth(),t1.getHeight());
+        b = new Bullet(this,t1,bulletImg,0,t1.getWidth(),t1.getHeight()/2);
 
 
         TankControl tc1 = new TankControl(t1, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
@@ -154,7 +179,7 @@ public class TRE extends JPanel  {
 
         g2.drawImage(LEFT_SIDE, 0, 0, this); //draws the left side of the screen
         g2.drawImage(RIGHT_SIDE, TRE.SCREEN_WIDTH / 2, 0, this); //draws the right side of the screen
-        g2.drawImage(miniMap,(SCREEN_WIDTH/2) - 100,(SCREEN_HEIGHT/2) - 100,this);
+        g2.drawImage(miniMap,(SCREEN_WIDTH/2) - 85,(SCREEN_HEIGHT/2) + 100 ,this);
 
 
         g2.setColor(BLACK); // gives a border for the split screen
@@ -170,9 +195,6 @@ public class TRE extends JPanel  {
 
 
     }
-
-
-
 
 
 
@@ -198,8 +220,6 @@ public class TRE extends JPanel  {
         }
 
 
-
-
     }
 
 
@@ -211,6 +231,15 @@ public class TRE extends JPanel  {
         drawBackgroundTile(buffer);
 
 
+        for(int i = 0; i < wall.size(); i++){
+
+           w = wall.get(i);
+           w.drawImage(buffer);
+
+        }
+
+
+        //FixME add conditionals to check whether bullets hit border
         for(int i = 0; i < bullets.size(); i++){
             b = bullets.get(i);
             if(b.getX() < 0){
@@ -227,12 +256,10 @@ public class TRE extends JPanel  {
 
         playerViewBoundChecker();
 
-
         LEFT_SIDE = world.getSubimage(this.p1WindowBoundX, this.p1WindowBoundY, TRE.SCREEN_WIDTH/2, TRE.SCREEN_HEIGHT);
         RIGHT_SIDE = world.getSubimage(this.p2WindowBoundX, this.p2WindowBoundY, TRE.SCREEN_WIDTH/2, TRE.SCREEN_HEIGHT);
 
         miniMap =  world.getScaledInstance(200,200,Image.SCALE_FAST); //FIXME change the specific size of minimap
-
 
 
 
@@ -352,12 +379,11 @@ public class TRE extends JPanel  {
 
 
 
-    public BufferedImage getBulletImg(){
 
-        return bulletImg;
+
+    public void addWall(Wall walls){
+        wall.add(walls);
     }
-
-
 
 
     public ArrayList<Wall> getWall() {

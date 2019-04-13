@@ -1,14 +1,12 @@
 package TankControl;
 
 
-import Bullet.Bullet;
+
 import Tank.Tank;
-import TankGame.TRE;
+
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 
 /**
@@ -57,7 +55,7 @@ public class TankControl implements KeyListener {
             this.t1.toggleRightPressed();
         }
         if (keyPressed == shoot){
-            this.t1.toggleShootPressed();
+            t1.shootBullet(t1);
         }
 
 

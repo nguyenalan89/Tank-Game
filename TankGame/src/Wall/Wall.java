@@ -2,8 +2,10 @@ package Wall;
 
 import TankGame.TRE;
 
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 
 public class Wall {
 
@@ -13,9 +15,10 @@ public class Wall {
     private boolean breakable,visible;
 
 
-    public Wall( BufferedImage img, int x, int y, boolean breakable){
 
-//        this.tankgame = tankgame;
+    public Wall(TRE tankgame,BufferedImage img, int x, int y, boolean breakable){
+
+        this.tankgame = tankgame;
         this.img = img;
         this.x = x;
         this.y = y;
@@ -55,5 +58,9 @@ public class Wall {
 
     public boolean isBreakable() {
         return breakable;
+    }
+
+    public TRE getTankgame() {
+        return tankgame;
     }
 }

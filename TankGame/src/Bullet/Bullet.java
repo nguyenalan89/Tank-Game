@@ -12,9 +12,8 @@ import java.awt.image.BufferedImage;
 public class Bullet {
 
 
-    private int x,y,vx,vy,width,height;
+    private int x,y,vx,vy,width,height,angle;
     private BufferedImage img;
-    private int angle;
     private int R = 2;
     private boolean visible;
     private TRE tankgame;
@@ -22,7 +21,7 @@ public class Bullet {
 
 
 
-    public Bullet(TRE tankgame, Tank tank, BufferedImage img,int x, int y,int width,int height){
+    public Bullet(TRE tankgame, Tank tank, BufferedImage img,int angle,int x, int y){
 
         this.tankgame = tankgame;
         this.tank = tank;
@@ -31,6 +30,7 @@ public class Bullet {
         this.y = y;
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
+        this.angle = angle;
         this.visible = true;
 
 
@@ -45,6 +45,7 @@ public class Bullet {
         vy = (int) Math.round(R * Math.sin(Math.toRadians(angle)));
         x += vx;
         y += vy;
+
 
 
     }

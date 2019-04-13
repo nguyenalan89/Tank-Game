@@ -83,7 +83,6 @@ public class Tank{
         this.LeftPressed = true;
     }
 
-    public void toggleShootPressed(){this.ShootPressed = true;}
 
     public void unToggleUpPressed() {
         this.UpPressed = false;
@@ -159,9 +158,9 @@ public class Tank{
         checkBorder();
     }
 
-    private void shootBullet(Tank tank){
+    public void shootBullet(Tank tank){
 
-        this.tankgame.addBullets(new Bullet(this.tankgame.getTankgame(),tank,bulletImg,x,y,this.getWidth(),this.getHeight()));
+        this.tankgame.addBullets(new Bullet(this.tankgame.getTankgame(),tank,bulletImg,angle,x,y));
         checkBorder();
 
     }
