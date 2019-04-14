@@ -62,6 +62,11 @@ public class Bullet {
 
     }
 
+    public Rectangle getBounds(){
+
+        return new Rectangle(x,y,width,height);
+    }
+
 
 
 
@@ -80,6 +85,7 @@ public class Bullet {
     public boolean isVisible() {
         return visible;
     }
+
 
 
     public int getWidth() {

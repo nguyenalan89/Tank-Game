@@ -190,12 +190,15 @@ public class TRE extends JPanel  {
 
 
 
+    }
 
+    public void checkCollisions(){
+
+        Rectangle tank1 = t1.getBounds();
 
 
 
     }
-
 
 
 

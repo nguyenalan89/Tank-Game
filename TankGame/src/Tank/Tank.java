@@ -208,6 +208,11 @@ public class Tank{
 
     }
 
+    public Rectangle getBounds(){
+
+        return new Rectangle(x,y,width,height);
+    }
+
 
     public int getHealth() {
         return health;
