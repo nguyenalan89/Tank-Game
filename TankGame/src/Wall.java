@@ -1,8 +1,3 @@
-package Wall;
-
-import TankGame.TRE;
-
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -23,7 +18,7 @@ public class Wall {
         this.x = x;
         this.y = y;
         this.visible = true;
-        this.breakable = true;
+        this.breakable = breakable;
         this.width = img.getWidth(null);
         this.height = img.getHeight(null);
 
@@ -31,9 +26,10 @@ public class Wall {
 
     }
 
-    public void update(){
 
 
+    public Rectangle getRect(){
+        return new Rectangle(x,y,getWidth(),getHeight());
 
     }
 

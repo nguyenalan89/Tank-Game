@@ -1,11 +1,3 @@
-package Tank;
-
-
-
-
-import Bullet.Bullet;
-import TankGame.TRE;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -39,6 +31,8 @@ public class Tank{
     private boolean RightPressed;
     private boolean LeftPressed;
     private boolean ShootPressed;
+    private boolean visible;
+
 
     private TRE tankgame = new TRE();
 
@@ -56,6 +50,7 @@ public class Tank{
         this.height = img.getHeight();
         this.health = health;
         this.tankLives = tankLives;
+        this.visible = true;
 
 
         try {
@@ -122,10 +117,7 @@ public class Tank{
             this.rotateRight();
         }
         if (this.ShootPressed){
-
             this.shootBullet(this);
-
-
         }
 
 
@@ -208,10 +200,12 @@ public class Tank{
 
     }
 
-    public Rectangle getBounds(){
+    public Rectangle getRect(){
+        return new Rectangle(x,y,getWidth(),getHeight());
 
-        return new Rectangle(x,y,width,height);
     }
+
+
 
 
     public int getHealth() {
@@ -231,8 +225,7 @@ public class Tank{
     }
 
     public void setTankLives(int tankLives) {
-        this.tankLives = tankLives;
-    }
+        this.tankLives = tankLives; }
 
     public int getY() {
         return y;
@@ -242,5 +235,15 @@ public class Tank{
         return x;
     }
 
+    public void setVx(int vx) {
+        this.vx = vx;
+    }
 
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 }

@@ -1,13 +1,3 @@
-package TankGame;
-
-
-
-import Bullet.Bullet;
-import Tank.Tank;
-import TankControl.TankControl;
-import Wall.Wall;
-
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -30,13 +20,14 @@ public class TRE extends JPanel  {
     public static final int SCREEN_WIDTH = 1280;
     public static final int SCREEN_HEIGHT = 1080;
 
+
     private TRE tankgame;
 
     private BufferedImage world,LEFT_SIDE, RIGHT_SIDE,backgroundMap,life,breakableWall, unbreakableWall,bulletImg;
     private Image miniMap;
     private Graphics2D buffer;
     private JFrame jf;
-    private Tank t1, t2,t;
+    public Tank t1, t2,tank;
     private int tankLives = 3;
     private int health = 20;
     private Bullet b;
@@ -49,7 +40,6 @@ public class TRE extends JPanel  {
 
      private static ArrayList<Wall> wall = new ArrayList<>();
 
-     private ArrayList<Wall> indestructibleWall = new ArrayList<>();
 
      private int p1WindowBoundX, p1WindowBoundY, p2WindowBoundX, p2WindowBoundY,p1HealthBar,p2HealthBar;
 
@@ -192,13 +182,6 @@ public class TRE extends JPanel  {
 
     }
 
-    public void checkCollisions(){
-
-        Rectangle tank1 = t1.getBounds();
-
-
-
-    }
 
 
 
@@ -255,8 +238,6 @@ public class TRE extends JPanel  {
         this.t1.drawImage(buffer);
         this.t2.drawImage(buffer);
 
-
-
         playerViewBoundChecker();
 
         LEFT_SIDE = world.getSubimage(this.p1WindowBoundX, this.p1WindowBoundY, TRE.SCREEN_WIDTH/2, TRE.SCREEN_HEIGHT);
@@ -264,20 +245,13 @@ public class TRE extends JPanel  {
 
         miniMap =  world.getScaledInstance(200,200,Image.SCALE_FAST); //FIXME change the specific size of minimap
 
+        this.checkCollisions();
 
 
 
 
 
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -291,8 +265,6 @@ public class TRE extends JPanel  {
 
         int p1Offset = 25;
         int p2Offset = 25;
-
-
 
 
 
@@ -329,6 +301,22 @@ public class TRE extends JPanel  {
             g.drawImage(life, 1020 + (i * p2Offset), t2Position + 20, this); //t2's live count
 
         }
+
+
+
+    }
+
+    public void checkCollisions(){
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -383,6 +371,15 @@ public class TRE extends JPanel  {
 
 
 
+    public Tank getT1(){
+        return t1;
+    }
+
+    public Tank getT2(){
+        return t2;
+    }
+
+
 
     public void addWall(Wall walls){
         wall.add(walls);
@@ -405,19 +402,12 @@ public class TRE extends JPanel  {
         bullets.remove(projectile);
     }
 
-    public ArrayList<Wall> getIndestructibleWall() {
-        return indestructibleWall;
-    }
-
 
     public TRE getTankgame() {
 
         return tankgame;
     }
 
-    public void setTankgame(TRE tankgame) {
-        this.tankgame = tankgame;
-    }
 
 
 }

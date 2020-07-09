@@ -1,10 +1,3 @@
-package Bullet;
-
-
-import Tank.Tank;
-import TankGame.TRE;
-
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -47,6 +40,10 @@ public class Bullet {
         y += vy;
 
 
+    }
+
+    public Rectangle getRect(){
+        return new Rectangle(x,y,getWidth(),getHeight());
 
     }
 
@@ -61,12 +58,6 @@ public class Bullet {
 
 
     }
-
-    public Rectangle getBounds(){
-
-        return new Rectangle(x,y,width,height);
-    }
-
 
 
 

@@ -1,8 +1,4 @@
-package TankControl;
 
-
-
-import Tank.Tank;
 
 
 import java.awt.event.KeyEvent;
