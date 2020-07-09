@@ -1,7 +1,4 @@
-# csc413-TankGame
-
-## Student Name : Alan Nguyen
-## Student ID : 916570387
+Tank Game
 
 
 
